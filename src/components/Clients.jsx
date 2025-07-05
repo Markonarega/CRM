@@ -24,8 +24,8 @@ const Clients = ({clients,addClient}) => {
         <h1 className='text-2xl font-bold text-gray-800'>
 Clients
         </h1>
-        <button onClick={()=>setIsModalOpen(true)}
-          className='bg-blue-950  hover: shadow-black text-white px-4 py-2 rounded-lg 
+        <button onClick={()=> setIsModalOpen(true)}
+          className='bg-blue-950   hover:bg-blue-700 text-white px-4 py-2 rounded-lg 
           flex items-center '>
           +ADD Client
         </button>
@@ -73,7 +73,7 @@ Actions
     </td>
     <td className='px-6 py-4 whitespace-nowrap text-sm font-medium '>
       <button className='text-blue-600 hover:text-blue-950'>Edit</button>
-      <hr  className='text-gray-400'/>
+      
       <button className='text-red-600 hover:text-red-900'>Delete</button>
     </td>
   </tr>
@@ -82,11 +82,11 @@ Actions
         </table>
       </div>
       {/* Adding Client modal */}
-      
-      <div className='bg-white rounded-lg w-full max-w-md'>
+      {isModalOpen && ( 
+   <div className='bg-white rounded-lg w-full max-w-md'>
         <div className='border-b p-4 flex justify-between items-center'>
           <h3 className='text- font-semibold'> Add new Client </h3>
-            <button onClick={()=>setIsModalOpen(false)} className='text-gray-500'>X</button>
+            <button onClick={()=>setIsModalOpen(false)} className='text-red-950 font-bold'>X</button>
         
         </div>
 
@@ -114,11 +114,11 @@ name='email'
 value={newClient.email}
 onChange={handleInputChange}
 className='shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-
+required
 />
           </div>
              <div className='mb-4'>
-<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='name'>
+<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='phone'>
  Phone
 </label>
 <input type="tel"
@@ -127,7 +127,7 @@ name='phone'
 value={newClient.phone}
 onChange={handleInputChange}
 className='shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-
+required
 />
           </div>
           <div className='flex justify-end'>
@@ -138,12 +138,15 @@ className='shadow appearance-none border rounded w-full py-2 text-gray-700 leadi
               Cancel
             </button>
             <button type='submit'
-            className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+            className='bg-blue-950 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
               Save Client
             </button>
           </div>
         </form>
       </div>
+)}
+      
+     
     </div>
   )
 }

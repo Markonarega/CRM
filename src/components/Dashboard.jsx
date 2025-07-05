@@ -55,7 +55,7 @@ const Dashboard = ({ clients, projects, tasks }) => {
       <div className="bg-white rounded-xl shadow p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-800">Recent Project</h2>
-          <button className="text-indigo-600 hover:text-indigo-800">View all</button>
+          <button className="text-indigo-600 hover:text-indigo-800" onClick={()=>projects.Id}>View all</button>
         </div>
         {/* …your recent project list/table goes here… */}
       </div>
