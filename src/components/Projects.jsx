@@ -1,137 +1,139 @@
-import React,{useState} from 'react'
+import React, { useState } from "react";
+import ProjectCard from "./ProjectCard";
 
-const Projects = ({projects,clients,addProject}) => {
-  const [isModalOpen,setIsModalOpen]=useState(false)
-  const [newProject,setNewProject]=useState({
-    name:'',
-    clientId:'',
-    status:'Not Started',
-    deadline:'',
-    budget:'',
-  })
+const Projects = ({ projects, clients, addProject }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newProject, setNewProject] = useState({
+    name: "",
+    clientId: "",
+    status: "Not Started",
+    deadline: "",
+    budget: "",
+  });
 
-  const handleInputChange=(e)=>{
-    const {name,value}= e.target
-    setNewProject({...newProject,[name]:value})
-  }
-  const handleSubmit =(e)=>{
-    e.preventDefault()
-    addProject(newProject)
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewProject({ ...newProject, [name]: value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addProject(newProject);
     setNewProject({
-      name:'',
-      clientId:'',
-      status:'Not Started',
-      deadline:'',
-      budget:''
-    })
-    setIsModalOpen(false)
-  }
+      name: "",
+      clientId: "",
+      status: "Not Started",
+      deadline: "",
+      budget: "",
+    });
+    setIsModalOpen(false);
+  };
   return (
     <div>
-      <div className='flex justify-between items-center mb-6'>
-        <h1 className='text-2xl font-bold text-blue-900'>  Projects</h1>
-          <button onClick={()=>setIsModalOpen(true)} className='bg-blue-950 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-+Add Project
-          </button>
-      {/* Project lists */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-{projects.map(project =>{
-  const client =clients.find(c =>c.id === project.clientId)
-  return(
-    <div key={project.id} className='bg-white rounded-xl shadow overflow-hidden'>
-      <div className='p-5'>
-        <div className='flex justify-between items-start'>
-          <div>
-<h3 className='text-lg font-semibold text-gray-800 '>{project.name}</h3>
-<p>{client?client.name:'Unknown name'}</p>
-          </div>
-          <span className={`px-2 py-1 text-xs rounded-full ${project.status==='Completed'?
-            'bg-green-100 text-green-800':
-            project.status==='In Progress'?
-            'bg-yellow-100 text-yellow-800':
-            'bg-red-100 text-red-800'
-          }`}>
-{project.status}
-          </span>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-blue-900"> Projects</h1>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-blue-950 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          +Add Project
+        </button>
+        {/* Project lists */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project) => {
+            return (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                clients={clients}
+              />
+            );
+          })}
         </div>
-
-        <div className='mt-4 space-y-2'>
-          <div className='flex justify-between'>
-            <span className='text-gray-500'> Deadline</span>
-            <span className='font-medium '>{project.deadline}</span>
-          </div>
-          <div className='flex justify-between'>
-            <span className='text-gray-500'> Budget</span>
-            <span className='font-medium '>${project.budget}</span>
-          </div>
-        </div>
-        <div className='mt-6 pt-4 border-t border-gray-100 flex justify-between'>
-<button className='text-gray-900 hover:text-black'>
-  View Detail
-</button>
-        </div>
-      </div>
-    </div>
-  )
-})}
-      </div>
         {/* We added project Modal */}
         {isModalOpen && (
-          <div className='fixed inset-0 bg-white
-          
+          <div
+            className="fixed inset-0 bg-white
            bg-opacity-50
            flex items-center 
           justify-center
-          p-4 z-50'>
-            <div className='border-b p-4 flex justify-between item-center'>
-           
-        
-            </div>
-            <form onSubmit={handleSubmit} className='p-4'>
-<div className='mb-4'>
-<label className='block text-gray-700 text-sm font-bold mb-2'  htmlFor="name">Project Name</label>
-<input type="text" name="name" id="name" value={newProject.name} onChange={handleInputChange} 
-className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight
+          p-4 z-50"
+          >
+            <div className="border-b p-4 flex justify-between item-center"></div>
+            <form onSubmit={handleSubmit} className="p-4">
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="name"
+                >
+                  Project Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={newProject.name}
+                  onChange={handleInputChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight
  focus:outline-none
- focus:shadow-outline' required/>
- 
- 
-</div>
-<div className='mb-4'>
-<label className='block text-gray-700 text-sm font-bold mb-2'  htmlFor="clientId">Client
-  
-</label>
-<select name="clientId" id="clientId" value={newProject.clientId} onChange={handleInputChange} 
-className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight
+ focus:shadow-outline"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="clientId"
+                >
+                  Client
+                </label>
+                <select
+                  name="clientId"
+                  id="clientId"
+                  value={newProject.clientId}
+                  onChange={handleInputChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight
  focus:outline-none
- focus:shadow-outline' required>
-<option value="">Select a client</option>
-{clients.map(client =>(
-  <option key={client.id} value={client.id}> client.name</option>
-))}
-</select>
-</div>
-<div className='mb-4'>
-  <label htmlFor="status" className='block text-gray-700 text-sm font-bold mb-2'>
-    Status
-  </label>
-  <select name="status" id="status"
-  value={newProject.status}
-  onChange={handleInputChange}
-  className='shadow appearance-none 
+ focus:shadow-outline"
+                  required
+                >
+                  <option value="">Select a client</option>
+                  {clients.map((client) => (
+                    <option key={client.id} value={client.id}>
+                      {" "}
+                      client.name
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="status"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Status
+                </label>
+                <select
+                  name="status"
+                  id="status"
+                  value={newProject.status}
+                  onChange={handleInputChange}
+                  className="shadow appearance-none 
   border rounded w-full py-2 px-3
    text-gray-700 leading-tight
  focus:outline-none
- focus:shadow-outline' 
- >
-<option value="Not started">Not Started</option>
-<option value="In progress">In progress</option>
-<option value="Completed"> Completed</option>
-<option value="On Hold">On Hold</option>
- </select>
-</div>
- <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="deadline">
+ focus:shadow-outline"
+                >
+                  <option value="Not started">Not Started</option>
+                  <option value="In progress">In progress</option>
+                  <option value="Completed"> Completed</option>
+                  <option value="On Hold">On Hold</option>
+                </select>
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="deadline"
+                >
                   Deadline
                 </label>
                 <input
@@ -143,8 +145,11 @@ className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
- <div className="mb-6">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="budget">
+              <div className="mb-6">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="budget"
+                >
                   Budget ($)
                 </label>
                 <input
@@ -173,11 +178,10 @@ className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 
               </div>
             </form>
           </div>
-
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Projects
+export default Projects;
