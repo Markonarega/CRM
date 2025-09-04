@@ -15,8 +15,13 @@ const Projects = ({ projects, clients, addProject }) => {
     const { name, value } = e.target;
     setNewProject({ ...newProject, [name]: value });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!newProject.clientId) {
+      alert("Please select a client");
+      return;
+    }
     addProject(newProject);
     setNewProject({
       name: "",
@@ -27,38 +32,41 @@ const Projects = ({ projects, clients, addProject }) => {
     });
     setIsModalOpen(false);
   };
+
   return (
-    <div>
+    <div className="p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-blue-900"> Projects</h1>
+        <h1 className="text-2xl font-bold text-blue-900">Projects</h1>
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-blue-950 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           +Add Project
         </button>
-        {/* Project lists */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => {
-            return (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                clients={clients}
-              />
-            );
-          })}
-        </div>
-        {/* We added project Modal */}
-        {isModalOpen && (
-          <div
-            className="fixed inset-0 bg-white
-           bg-opacity-50
-           flex items-center 
-          justify-center
-          p-4 z-50"
-          >
-            <div className="border-b p-4 flex justify-between item-center"></div>
+      </div>
+
+      {/* Project lists */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((project) => (
+          <ProjectCard key={project.id} project={project} clients={clients} />
+        ))}
+      </div>
+
+      {/* Add project Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div className="border-b p-4 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-gray-800">
+                Add New Project
+              </h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                &times;
+              </button>
+            </div>
             <form onSubmit={handleSubmit} className="p-4">
               <div className="mb-4">
                 <label
@@ -73,9 +81,7 @@ const Projects = ({ projects, clients, addProject }) => {
                   id="name"
                   value={newProject.name}
                   onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight
- focus:outline-none
- focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
               </div>
@@ -91,16 +97,14 @@ const Projects = ({ projects, clients, addProject }) => {
                   id="clientId"
                   value={newProject.clientId}
                   onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight
- focus:outline-none
- focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 >
                   <option value="">Select a client</option>
                   {clients.map((client) => (
                     <option key={client.id} value={client.id}>
-                      {" "}
-                      client.name
+                      {client.name}{" "}
+                      {/* Fixed: Removed quotes around client.name */}
                     </option>
                   ))}
                 </select>
@@ -117,15 +121,11 @@ const Projects = ({ projects, clients, addProject }) => {
                   id="status"
                   value={newProject.status}
                   onChange={handleInputChange}
-                  className="shadow appearance-none 
-  border rounded w-full py-2 px-3
-   text-gray-700 leading-tight
- focus:outline-none
- focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 >
-                  <option value="Not started">Not Started</option>
-                  <option value="In progress">In progress</option>
-                  <option value="Completed"> Completed</option>
+                  <option value="Not Started">Not Started</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
                   <option value="On Hold">On Hold</option>
                 </select>
               </div>
@@ -171,15 +171,15 @@ const Projects = ({ projects, clients, addProject }) => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-gray-950 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
+                  className="bg-blue-950 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Create Project
                 </button>
               </div>
             </form>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
